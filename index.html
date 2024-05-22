@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>GOI: Find 3D Gaussians of Interest with an Optimizable Open-vocabulary Semantic-space Hyperplane</title>
+
+    <meta name="description"
+        content="GOI: Find 3D Gaussians of Interest with an Optimizable Open-vocabulary Semantic-space Hyperplane">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--FACEBOOK-->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://GOI-Hyperplane.github.io" />
+    <meta property="og:title" content="GOI: Find 3D Gaussians of Interest" />
+    <meta property="og:description"
+        content="GOI: Find 3D Gaussians of Interest with an Optimizable Open-vocabulary Semantic-space Hyperplane" />
+
+    <!--TWITTER-->
+    <meta name="twitter:url" content="https://GOI-Hyperplane.github.io" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="paint.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="assets/css/bog/app.css">
+
+    <link rel="stylesheet" href="assets/css/bog/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+        </script>
+
+    <link rel="stylesheet" href="assets/css/bog/dics.min.css">
+    <script src="assets/js/bog/dics.min.js"></script>
+    <script src="assets/js/bog/video_comparison.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', domReady);
+        function domReady() {
+            for (const e of document.querySelectorAll(".b-dics")) {
+                new Dics({
+                    container: e,
+                    textPosition: "top"
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                <b>GOI</b>: Find 3D <span style="font-weight: 500">G</span>aussians <span style="font-weight: 500">o</span>f <span style="font-weight: 500">I</span>nterest with an Optimizable </br> Open-vocabulary Semantic-space Hyperplane </br>
+            </h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                Anonymous Authors
+            </h5>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center">
+                <ul class="nav nav-pills nav-justified">
+                    <li>
+                        <a href="#">
+                            <image src="assets/paper/paper.png"  height="60px">
+                                <h4><strong>Paper</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                        <image src="assets/img/bog/github_pad.png" height="60px">
+                            <h4><strong>Code</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                        <image src="assets/img/bog/google-drive.png" height="60px">
+                            <h4><strong>Data</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <video class="video" width="100%" id="teaser" loop playsinline autoplay muted src="video/teaser.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                <canvas height=0 class="videoMerge" id="teaserMerge"></canvas>
+			</div>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-center">
+                    Semantic segmentation result of GOI. The left video shows the rendered 3D scene, and the right video shows the semantic segmentation result.
+                    <br /> 
+                </p>
+			</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    TL;DR
+                </h3>
+                
+                <div class="banner">
+                    GOI can locate 3D gaussians of interests as directed by open-vocabulary prompts.
+                </div>
+
+                <br />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    3D open-vocabulary scene understanding, crucial for advancing augmented reality and robotic applications, 
+                    involves interpreting and locating specific regions within a 3D space as directed by natural language instructions. 
+                    To this end, we introduce GOI, a framework that integrates semantic features from 2D vision-language foundation models into 
+                    3D Gaussian Splatting (3DGS) and identifies 3D Gaussians of Interest using an Optimizable Semantic-space Hyperplane. 
+                    Our approach includes an efficient compression method that utilizes scene priors to condense noisy high-dimensional semantic features 
+                    into compact low-dimensional vectors, which are subsequently embedded in 3DGS. 
+                    During the open-vocabulary querying process, we adopt a distinct approach compared to existing methods, 
+                    which depend on a manually set fixed empirical threshold to select regions based on their semantic feature distance to the query text embedding. 
+                    This traditional approach often lacks universal accuracy, leading to challenges in precisely identifying specific target areas. 
+                    Instead, our method treats the feature selection process as a hyperplane division within the feature space, 
+                    retaining only those features that are highly relevant to the query. 
+                    We leverage off-the-shelf 2D Referring Expression Segmentation (RES) models to fine-tune the semantic-space hyperplane, 
+                    enabling a more precise distinction between target regions and others. This fine-tuning substantially improves the accuracy of open-vocabulary queries, 
+                    ensuring the precise localization of pertinent 3D Gaussians. Extensive experiments demonstrate GOI's superiority over previous state-of-the-art methods. 
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Pipeline
+                </h3>
+                <div class="text-center">
+                    <img src="image/pipeline.png" width="100%">
+                </div>
+                <div class="text-justify">
+                    <p>
+                        The framework of our GOI. <b>Top left</b>: Reconstruction of a 3D Gaussian scene, encoding multi-view images. 
+                        <b>Bottom left</b>: The optimization process. For each training view, a low-dimensional (LD) feature map is rendered through Gaussian Rasterizer 
+                        and transformed into a predicted feature map via the Trainable Feature Clustering Codebook (TFCC). 
+                        <b>Right</b>: The pipeline illustrates open-vocabulary querying. 
+                        The processes denoted by <img src="image/mathcal_r.png" width="14px"> and <img src="image/mathcal_f.png" width="14px"> 
+                        correspond to rendering and feature map prediction, respectively. 
+                        The red line indicates operations exclusive to the initial query with a new text prompt. 
+                        During these operations, the Optimizable Semantic-space Hyperplane (OSH) is fine-tuned to more precisely delineate the target region.
+                    </p>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video Comparison
+                </h3>
+                <p>Below shows a comparison between our work and other recent language embedded NeRF or 3DGS scenes.</p>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="div-comp-video">
+                    <video class="responsive-video" controls autoplay loop muted>
+                        <source src="./video/room.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="text-center">
+                    <p> prompt: <i>"sofa in dark green"</i> </p>
+                </div>
+            </div>
+            <br />
+
+            <div class="col-md-8 col-md-offset-2">
+                <div class="div-comp-video">
+                    <video class="responsive-video" controls autoplay loop muted>
+                        <source src="./video/bonsai.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="text-center">
+                    <p> prompt: <i>"flowerpot on the table"</i> </p>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2">
+                <div class="div-comp-video">
+                    <video class="responsive-video" controls autoplay loop muted>
+                        <source src="./video/garden.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="text-center">
+                    <p> prompt: <i>"green grass"</i> </p>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-md-offset-2">
+                <div class="div-comp-video">
+                    <video class="responsive-video" controls autoplay loop muted>
+                        <source src="./video/kitchen.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="text-center">
+                    <p> prompt: <i>"the tablemat next to the red gloves"</i> </p>
+                </div>
+            </div>
+
+
+            <div class="col-md-8 col-md-offset-2">
+                <h4>
+                    More Results
+                </h4>
+
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v2" width="100%" playsinline autoplay loop muted>
+                                <source src="video/comp-table.mp4" type="video/mp4" />
+                            </video>
+                            <div class="text-center" style="font-size: 14px;">
+                                <p> prompt: <i>"table under the bowl"</i> </p>
+                            </div>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v3" width="100%" playsinline autoplay loop muted>
+                                <source src="video/comp-lego.mp4" type="video/mp4" />
+                            </video>
+                            <div class="text-center" style="font-size: 14px;">
+                                <p> prompt: <i>"Lego bulldozer"</i> </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v2" width="100%" playsinline autoplay loop muted>
+                                <source src="video/comp-teatime.mp4" type="video/mp4" />
+                            </video>
+                            <div class="text-center" style="font-size: 14px;">
+                                <p> prompt: <i>"cookies"</i> </p>
+                            </div>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v3" width="100%" playsinline autoplay loop muted>
+                                <source src="video/comp-figurines.mp4" type="video/mp4" />
+                            </video>
+                            <div class="text-center" style="font-size: 14px;">
+                                <p> prompt: <i>"red apple"</i> </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v2" width="100%" playsinline autoplay loop muted>
+                                <source src="video/comp-replica0.mp4" type="video/mp4" />
+                            </video>
+                            <div class="text-center" style="font-size: 14px;">
+                                <p> prompt: <i>"stool"</i> </p>
+                            </div>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <video id="v3" width="100%" playsinline autoplay loop muted>
+                                <source src="video/comp-replica1.mp4" type="video/mp4" />
+                            </video>
+                            <div class="text-center" style="font-size: 14px;">
+                                <p> prompt: <i>"pillow"</i> </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Scene Editing
+                </h3>
+                <p>
+                    Our method can be applied to a variety of downstream tasks, 
+                    with the most direct application being the editing of 3D scenes.
+                </p>
+                <div class="text-center">
+                    <img src="image/edit.png" width="100%">
+                </div>
+                <div class="text-center">
+                    <p> prompt: <i>"flowerpot on the table"</i> </p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
