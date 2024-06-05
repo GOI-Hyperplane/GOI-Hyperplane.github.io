@@ -125,3 +125,39 @@
   .comp-margin {
 	margin-bottom: 5px
 }
+
+.link-block a {
+	margin: 20px;
+	padding: 8px;
+}
+
+.icon{height:1.5em;width:1.5em}
+
+.svg-inline--fa{overflow:visible}
+.svg-inline--fa{display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em}
+.svg-inline--fa.fa-w-12{width:.75em}
+.svg-inline--fa.fa-w-16{width:1em}
+.svg-inline--fa.fa-w-18{width:1.125em}
+
+.publication-links{
+	font-family: "Noto Sans", sans-serif;
+	display: flex;
+	justify-content: center;
+	padding: 20px 15px 15px 15px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+.button.is-rounded {
+    border-radius: 290486px;
+    padding-left: calc(1em + .25em);
+    padding-right: calc(1em + .25em);
+}
+.button.is-normal {
+    font-size: 16px;
+}
+.button.is-dark {
+    background-color: #363636;
+    border-color: transparent;
+    color: #fff;
+}
